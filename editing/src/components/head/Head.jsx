@@ -1,26 +1,34 @@
 import "./head.css"
-import newReducer from "../../reducers/newReducer";
 import {saveItem, setCostValue, setNameValue} from "../../js/saveItem";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-function Head({props}) {
+export function Head() {
+  const dispatch = useDispatch()
+  const { form, list } = useSelector((state) => state)
+  // const { ...state } = useSelector((state) => state)
+  const { nameValue, costValue } = form
+
+  // console.log(list)
+
 
   const submitHandler = (e) => {
     e.preventDefault();
-    props.dispatch(saveItem())
+
+    dispatch(saveItem())
   }
 
-  const changeName = (e) => {
-    const { value } = e.target;
-    // console.log(value)
-    props.dispatch(setNameValue(value))
+  const inputChange = (e) => {
+    e.preventDefault()
+    const { name, value } = e.target;
+    switch (name) {
+      case "nameValue":
+        dispatch(setNameValue(value))
+        break
+      case "costValue":
+        dispatch(setCostValue(value))
+        break
+    }
   }
-
-  const changeCost = (e) => {
-    const { value } = e.target;
-    props.dispatch(setCostValue(value))
-  }
-
 
   return (
     <form className="head"
@@ -28,39 +36,22 @@ function Head({props}) {
     >
       <input
         type="text"
-        value={props.nameValue}
+        name="nameValue"
+        value={nameValue}
         className="input-name"
-        onChange={changeName}
+        onChange={inputChange}
       ></input>
       <input
         type="text"
-        value={props.costValue}
+        name="costValue"
+        value={costValue}
         className="input-cost"
-        onChange={changeCost}
+        onChange={inputChange}
       ></input>
-      <button type="submit" className="save">Save</button>
+      <button type="submit" disabled={nameValue === '' || costValue === ''} className="save">Save</button>
       <button type="submit" style={{display: 'none'}} className="cansel">Cansel</button>
     </form>
   )
 }
 
-const mapStateToProps = (state, props) => {
-  return {
-    nameValue: state.name.nameValue,
-    costValue: state.cost.costValue
-  }
-
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return (
-    dispatch
-  )
-}
-
-
-export default connect(
-  mapStateToProps, mapDispatchToProps,
-)(
-  Head
-);
+export default Head
