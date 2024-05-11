@@ -1,21 +1,48 @@
 import "./head.css"
-import {saveItem, setCostValue, setNameValue} from "../../js/saveItem";
+import {cleanItem, deleteElem, editItem, saveEdit, saveItem, setCostValue, setNameValue} from "../../js/saveItem";
 import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import {Item} from "../item/Item";
+import {v4 as uuidv4} from 'uuid';
 
 export function Head() {
   const dispatch = useDispatch()
-  const { form, list } = useSelector((state) => state)
-  // const { ...state } = useSelector((state) => state)
-  const { nameValue, costValue } = form
-
-  // console.log(list)
-
+  const { id, edit,nameValue, costValue, list } = useSelector((state) => state.form)
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    dispatch(saveItem())
+    if(id === '') {
+      const newObj = {
+        id: uuidv4(),
+        name: nameValue,
+        cost: costValue,
+      }
+      dispatch(saveItem(newObj))
+      dispatch(cleanItem())
+      return
+    }
+    const newObj = {
+      id: id,
+      name: nameValue,
+      cost: costValue,
+    }
+    dispatch(saveEdit(newObj))
+    dispatch(cleanItem())
   }
+
+  const cancel = () => {
+    dispatch(cleanItem())
+  }
+
+  const editing = (idNumber) => {
+    dispatch(editItem(idNumber))
+  }
+
+  const deleteItem = (idNumber) => {
+    dispatch(deleteElem(idNumber))
+  }
+
 
   const inputChange = (e) => {
     e.preventDefault()
@@ -31,26 +58,43 @@ export function Head() {
   }
 
   return (
-    <form className="head"
-          onSubmit={submitHandler}
-    >
-      <input
-        type="text"
-        name="nameValue"
-        value={nameValue}
-        className="input-name"
-        onChange={inputChange}
-      ></input>
-      <input
-        type="text"
-        name="costValue"
-        value={costValue}
-        className="input-cost"
-        onChange={inputChange}
-      ></input>
-      <button type="submit" disabled={nameValue === '' || costValue === ''} className="save">Save</button>
-      <button type="submit" style={{display: 'none'}} className="cansel">Cansel</button>
-    </form>
+    <>
+      <form className="head"
+            onSubmit={submitHandler}
+      >
+        <input
+          type="text"
+          name="nameValue"
+          value={nameValue}
+          className="input-name"
+          onChange={inputChange}
+        ></input>
+        <input
+          type="text"
+          name="costValue"
+          value={costValue}
+          className="input-cost"
+          onChange={inputChange}
+        ></input>
+        <button type="submit" disabled={nameValue === '' || costValue === ''} className="save">Save</button>
+        <button type="button"
+                style={edit ? {display: 'block'} : {display: 'none'}}
+                onClick={cancel}
+                // style={{display: 'block'}}
+                className="cansel">Cancel</button>
+      </form>
+      <hr />
+      <ul className="list">
+        {list.map((item) => (
+          <Item
+            props={item}
+            key={item.id}
+            onEdit={(evt) => {editing(evt);}}
+            onDelete={(evt) => {deleteItem(evt);}}
+          />
+        ))}
+      </ul>
+    </>
   )
 }
 

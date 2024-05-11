@@ -1,10 +1,4 @@
-import {SET_NAME_VALUE, SET_COST_VALUE, SAVE_ITEM, EDIT_ITEM, DELETE_ITEM} from "../actions";
-
-export const saveItem = () => {
-  return {
-    type: SAVE_ITEM,
-  }
-}
+import {SET_NAME_VALUE, SET_COST_VALUE, SAVE_ITEM, CLEAN_ITEM, EDIT_ITEM, DELETE_ITEM, SAVE_EDIT} from "../actions";
 
 export const setNameValue = (payload) => {
   return {
@@ -20,14 +14,38 @@ export const setCostValue = (payload) => {
   }
 }
 
-export const editItem = () => {
+export const saveItem = (payload) => {
   return {
-    type: EDIT_ITEM
+    type: SAVE_ITEM,
+    payload
   }
 }
 
-export const deleteItem = () => {
+export const cleanItem = () => {
   return {
-    type: DELETE_ITEM
+    type: CLEAN_ITEM,
+  }
+}
+
+export const editItem = (payload) => {
+  return {
+    type: EDIT_ITEM,
+    payload
+  }
+}
+
+export const saveEdit = (payload) => {
+  return {
+    type: SAVE_EDIT,
+    payload
+  }
+}
+
+
+
+export const deleteElem = (payload) => {
+  return {
+    type: DELETE_ITEM,
+    payload
   }
 }
