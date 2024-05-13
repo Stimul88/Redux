@@ -1,13 +1,4 @@
-import {
-  SAVE_ITEM,
-  SET_COST_VALUE,
-  SET_NAME_VALUE,
-  CLEAN_ITEM,
-  EDIT_ITEM,
-  SAVE_EDIT,
-  DELETE_ITEM,
-  FILTER_ITEM, FILTER_ARRAY
-} from '../actions'
+import {SAVE_ITEM, SET_COST_VALUE, SET_NAME_VALUE, CLEAN_ITEM, EDIT_ITEM, SAVE_EDIT, DELETE_ITEM} from './actions'
 
 const listArray = [
   {
@@ -36,10 +27,8 @@ const initialState = {
   id: '',
   nameValue: '',
   costValue: '',
-  filter: '',
   edit: false,
-  list: listArray,
-  filerArray: []
+  list: listArray
 }
 
 const newReducer = (state = initialState, action) => {
@@ -69,7 +58,6 @@ const newReducer = (state = initialState, action) => {
         id: '',
         nameValue: '',
         costValue: '',
-        filter: '',
         edit: false,
       };
     case EDIT_ITEM:
@@ -94,42 +82,21 @@ const newReducer = (state = initialState, action) => {
       const mapArray = state.list.map((item) =>
         item.id === action.payload.id ? editElement : item
     )
-      const newFilter = state.filerArray.map((item) =>
-        item.id === action.payload.id ? editElement : item
-      )
 
       return {
         ...state,
-        list: mapArray,
-        filerArray: newFilter
+        list: mapArray
       };
     case DELETE_ITEM:
+
+
       const filterArray = state.list.filter((item) =>
         item.id !== action.payload
       )
 
-      const newDeleteArray = state.list.filter((item) =>
-        item.id !== action.payload
-      )
-
       return {
         ...state,
-        filter: '',
-        list: filterArray,
-        filerArray: newDeleteArray
-      };
-    case FILTER_ITEM:
-
-      return {
-        ...state,
-        filter: action.payload
-      };
-    case FILTER_ARRAY:
-      const newFilterArray = state.list.filter(item => item.name.includes(state.filter))
-
-      return {
-        ...state,
-        filerArray: newFilterArray
+        list: filterArray
       };
     default:
       return state;

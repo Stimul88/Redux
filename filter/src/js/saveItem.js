@@ -7,7 +7,7 @@ import {
   DELETE_ITEM,
   SAVE_EDIT,
   FILTER_ITEM, FILTER_ARRAY
-} from "../actions";
+} from "../store/actions";
 
 export const setNameValue = (payload) => {
   return {

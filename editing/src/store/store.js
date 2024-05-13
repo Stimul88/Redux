@@ -1,4 +1,4 @@
-import newReducer from "../reducers/newReducer";
+import newReducer from "./newReducer";
 import {combineReducers, compose, legacy_createStore} from "redux";
 
 const ReactReduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.

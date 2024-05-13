@@ -1,4 +1,4 @@
-import {SET_NAME_VALUE, SET_COST_VALUE, SAVE_ITEM, CLEAN_ITEM, EDIT_ITEM, DELETE_ITEM, SAVE_EDIT} from "../actions";
+import {SET_NAME_VALUE, SET_COST_VALUE, SAVE_ITEM, CLEAN_ITEM, EDIT_ITEM, DELETE_ITEM, SAVE_EDIT} from "../store/actions";
 
 export const setNameValue = (payload) => {
   return {
