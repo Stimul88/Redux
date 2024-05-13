@@ -1,0 +1,16 @@
+.head {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 30px;
+    margin-bottom: 30px;
+}
+
+.input-name {
+    width: 250px;
+}
+
+.save {
+    width: 100px;
+}
